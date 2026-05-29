@@ -1,0 +1,144 @@
+# =============================================================================
+# SAP Automation Engine — Configuration
+# =============================================================================
+# All keys in this file are actively consumed by the application.
+# Changing values here controls runtime behaviour without touching source code.
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# LOGGING
+# -----------------------------------------------------------------------------
+logging:
+
+  # How many days to retain log files on disk before pruning.
+  retention_days: 90
+
+  # Write log entries to a timestamped .log file under /logs/.
+  enable_file_logging: true
+
+  # Echo log entries to the terminal (stdout).
+  enable_terminal_logging: true
+
+  # When true, DEBUG-level messages are also emitted.
+  # Keep false in production; flip to true while debugging.
+  developer_mode_default: false
+
+
+# -----------------------------------------------------------------------------
+# PERFORMANCE
+# Adaptive dashboard refresh — avoids terminal spam on large files.
+# -----------------------------------------------------------------------------
+performance:
+
+  # Rows processed between each dashboard redraw for small files.
+  small_file_refresh_rows: 10
+
+  # Rows processed between each dashboard redraw for medium files.
+  medium_file_refresh_rows: 50
+
+  # Rows processed between each dashboard redraw for large files.
+  large_file_refresh_rows: 500
+
+  # Files with rows <= this threshold are treated as "small".
+  small_file_threshold: 1000
+
+  # Files with rows <= this threshold are treated as "medium".
+  medium_file_threshold: 10000
+
+
+# -----------------------------------------------------------------------------
+# RECOVERY
+# -----------------------------------------------------------------------------
+recovery:
+
+  # Number of times the pipeline retries on recoverable failures
+  # before giving up and writing a crash report.
+  retry_attempts: 3
+
+  # When true, temporary working files in /temp/ are preserved after a run.
+  # Useful for post-mortem debugging. Set false in production.
+  keep_temp_files: false
+
+
+# -----------------------------------------------------------------------------
+# UI  (Terminal / Dashboard)
+# -----------------------------------------------------------------------------
+ui:
+
+  # Enable ANSI colour codes in terminal output.
+  # Disable if your terminal does not support colours.
+  enable_terminal_colors: true
+
+  # Show the live progress dashboard while the pipeline runs.
+  # When false the pipeline runs silently (only log output).
+  enable_live_dashboard: true
+
+  # Minimum wall-clock seconds between dashboard screen redraws.
+  # Lower = more responsive; higher = less flicker on slow terminals.
+  dashboard_refresh_seconds: 0.5
+
+
+# -----------------------------------------------------------------------------
+# WORKBOOK  (Output Excel formatting)
+# -----------------------------------------------------------------------------
+workbook:
+
+  # Generate an extra "Warnings" sheet listing rows with money issues.
+  generate_warning_sheet: true
+
+  # Generate an extra "Run_Metadata" sheet with run statistics.
+  generate_metadata_sheet: true
+
+  # Freeze the header row so it stays visible while scrolling.
+  freeze_header_row: true
+
+  # Add Excel auto-filter dropdowns to every output sheet.
+  enable_auto_filter: true
+
+  # Auto-fit column widths to their widest cell value (max 60 chars).
+  auto_column_width: true
+
+  # Highlight rows in the Warnings sheet with a red fill.
+  conditional_warning_colors: true
+
+
+# -----------------------------------------------------------------------------
+# OUTPUT  (File naming)
+# -----------------------------------------------------------------------------
+output:
+
+  # Prefix for generated workbook filenames.
+  output_prefix: "SAP_Automation"
+
+  # strftime format appended after the prefix.
+  timestamp_format: "%Y%m%d_%H%M%S"
+
+
+# -----------------------------------------------------------------------------
+# VALIDATION
+# -----------------------------------------------------------------------------
+validation:
+
+  # When true, provision values that cannot be parsed as numbers are
+  # replaced with 0 and flagged as warnings instead of crashing.
+  normalize_invalid_provision_to_zero: true
+
+  # When true, rows whose critical fields (PO, Vendor, GL) are all blank
+  # are silently skipped rather than raising a hard error.
+  skip_bad_rows: true
+
+  # Remove exact duplicate rows from the cleaned dataframe before processing.
+  remove_exact_duplicates: true
+
+
+# -----------------------------------------------------------------------------
+# DEBUG
+# -----------------------------------------------------------------------------
+debug:
+
+  # Write a crash_<run_id>.log file to /logs/crash/ on fatal errors.
+  save_crash_logs: true
+
+  # Log per-stage timing metrics to the run log for performance profiling.
+  enable_performance_metrics: true

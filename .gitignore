@@ -1,0 +1,278 @@
+# =============================================================================
+# SAP Automation Engine — .gitignore
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
+
+# Byte-compiled / optimised / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+pytestdebug.log
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# pyright / pylance
+pyrightconfig.json
+
+# Ruff / flake8
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# Spyder
+.spyderproject.db
+.spyproject
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+
+# -----------------------------------------------------------------------------
+# Project — Input files
+# SAP exports contain sensitive PO, vendor, and financial data.
+# Never commit real SAP files to version control.
+# -----------------------------------------------------------------------------
+
+input/
+!input/.gitkeep
+
+
+# -----------------------------------------------------------------------------
+# Project — Output files
+# Generated workbooks are build artefacts, not source.
+# -----------------------------------------------------------------------------
+
+output/
+!output/.gitkeep
+
+
+# -----------------------------------------------------------------------------
+# Project — Temporary working files
+# -----------------------------------------------------------------------------
+
+temp/
+!temp/.gitkeep
+
+
+# -----------------------------------------------------------------------------
+# Project — Logs
+# Runtime logs and crash reports can contain sensitive row-level data.
+# -----------------------------------------------------------------------------
+
+logs/
+!logs/.gitkeep
+!logs/crash/.gitkeep
+
+
+# -----------------------------------------------------------------------------
+# Project — Config overrides
+# Keep config.yaml in source control as the template.
+# Keep local overrides (config.local.yaml, .env) out.
+# -----------------------------------------------------------------------------
+
+config.local.yaml
+config.local.yml
+*.local.yaml
+*.local.yml
+.env
+.env.*
+!.env.example
+
+
+# -----------------------------------------------------------------------------
+# Excel / Office files
+# Source Excel files are data, not code. Output files are build artefacts.
+# Exceptions: any sample/fixture files checked into tests/.
+# -----------------------------------------------------------------------------
+
+*.xlsx
+*.xls
+*.xlsm
+*.xlsb
+*.csv
+!tests/**/*.xlsx
+!tests/**/*.xls
+!tests/**/*.csv
+
+
+# -----------------------------------------------------------------------------
+# OS-generated files
+# -----------------------------------------------------------------------------
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+
+# -----------------------------------------------------------------------------
+# IDEs and editors
+# -----------------------------------------------------------------------------
+
+# VSCode
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json.example
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+# Sublime Text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# Vim / Neovim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Netrw.vim
+.netrwhist
+tags
+[._]*.un~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Cursor
+.cursor/
+
+
+# -----------------------------------------------------------------------------
+# Docker / containers (future use)
+# -----------------------------------------------------------------------------
+
+.dockerignore
+docker-compose.override.yml
+
+
+# -----------------------------------------------------------------------------
+# CI / CD artefacts (future use)
+# -----------------------------------------------------------------------------
+
+.github/workflows/*.local.yml
+
+
+# -----------------------------------------------------------------------------
+# Miscellaneous
+# -----------------------------------------------------------------------------
+
+# Backup files
+*.bak
+*.backup
+*.orig
+*.swp
+*.tmp
+
+# Patch files
+*.patch
+*.diff
+
+# Archive files (should not be committed)
+*.zip
+*.tar.gz
+*.tar.bz2
+*.rar
+*.7z
