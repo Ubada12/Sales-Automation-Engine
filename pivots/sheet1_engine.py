@@ -119,7 +119,26 @@ class Sheet1Engine:
 
             # ----------------------------------------------------------
             # Rule 2: Remove 'Close' rows
+            #
+            # Two independent close signals exist in SAP exports:
+            #
+            #   a) Main Comment column (col T, header = "comment"):
+            #      Overall row status — 'Close' means the entire PO
+            #      line has been manually closed.
+            #
+            #   b) Monthly Comments columns (headers = "comments",
+            #      "comments.1", "comments.2", "comments.3" …):
+            #      Per-month closure signal — 'close' in any of these
+            #      means the provision was settled for that month and
+            #      the row must be excluded.
+            #
+            # We check BOTH.  The monthly columns are detected
+            # dynamically by looking for any header that starts with
+            # "comments" (plural) — pandas appends .1 .2 … for
+            # duplicates so all month blocks are caught automatically.
             # ----------------------------------------------------------
+
+            # a) Main comment column
             if "comment" in active.columns:
                 before_close = len(active)
                 active = active[
@@ -132,7 +151,26 @@ class Sheet1Engine:
                 close_removed = before_close - len(active)
                 if close_removed:
                     self.logger.warning(
-                        f"{close_removed} row(s) removed — Comment = 'Close'."
+                        f"{close_removed} row(s) removed — main Comment = 'Close'."
+                    )
+
+            # b) Monthly comments columns (comments, comments.1, comments.2 …)
+            monthly_cmt_cols = [
+                col for col in active.columns
+                if str(col).lower().startswith("comments")
+            ]
+            if monthly_cmt_cols:
+                before_mcmt = len(active)
+                # Build a mask: True if ANY monthly comments cell == 'close'
+                monthly_close_mask = active[monthly_cmt_cols].apply(
+                    lambda col: col.fillna("").astype(str)
+                                   .str.strip().str.lower().eq("close")
+                ).any(axis=1)
+                active = active[~monthly_close_mask]
+                mcmt_removed = before_mcmt - len(active)
+                if mcmt_removed:
+                    self.logger.warning(
+                        f"{mcmt_removed} row(s) removed — monthly Comments = 'close'."
                     )
 
             # ----------------------------------------------------------
